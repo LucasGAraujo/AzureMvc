@@ -4,6 +4,7 @@ using AzureMvc.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureMvc.Migrations
 {
     [DbContext(typeof(AzureMvcContext))]
-    partial class AzureMvcContextModelSnapshot : ModelSnapshot
+    [Migration("20221213113352_Ter")]
+    partial class Ter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,7 @@ namespace AzureMvc.Migrations
                         new
                         {
                             EstadoId = 1,
-                            ImagemEstado = "/assets/porsche/riodejaneiro.png",
+                            ImagemEstado = "/assets/porsche/riodejaneiro.jpg",
                             Nome = "Rio De Janeiro",
                             PaisId = 1
                         },
@@ -112,7 +114,7 @@ namespace AzureMvc.Migrations
                         new
                         {
                             EstadoId = 3,
-                            ImagemEstado = "/assets/porsche/buenosaires.png",
+                            ImagemEstado = "/assets/porsche/buenosaires.jpg",
                             Nome = "Buenos Aires",
                             PaisId = 2
                         });

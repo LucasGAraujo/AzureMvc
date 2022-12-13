@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AzureMvc.Data;
 using AzureMvc.Models;
-using Azure.Storage.Blobs;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Azure.Storage.Blobs;
 
 namespace AzureMvc.Controllers
 {
@@ -57,10 +57,11 @@ namespace AzureMvc.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaisId,Nome,ImagemPais")] Pais pais)
+        public async Task<IActionResult> Create([Bind("PaisId,Nome,ImagemPais")] Pais pais, IFormFile ImagemPais)
         {
             if (ModelState.IsValid)
             {
+                pais.ImagemPais = UploadImage(ImagemPais);
                 _context.Add(pais);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,7 +90,7 @@ namespace AzureMvc.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaisId,Nome,ImagemPais")] Pais pais)
+        public async Task<IActionResult> Edit(int id, [Bind("PaisId,Nome,ImagemPais")] Pais pais, IFormFile ImagemPais)
         {
             if (id != pais.PaisId)
             {
@@ -100,6 +101,7 @@ namespace AzureMvc.Controllers
             {
                 try
                 {
+                    pais.ImagemPais = UploadImage(ImagemPais);
                     _context.Update(pais);
                     await _context.SaveChangesAsync();
                 }
@@ -160,16 +162,6 @@ namespace AzureMvc.Controllers
         {
           return _context.Paises.Any(e => e.PaisId == id);
         }
-        private static void DeleteFile(string foto)
-        {
-            string connectionString = @"DefaultEndpointsProtocol=https;AccountName=lucasresourcer;AccountKey=1PGao96lhuuABUJZYrHGqzQkoc+0Q+jwLVbwxD7H9FiwdlgkPFIwYmU9aH7f2Ahkr7fu+xHXdKGu+AStRcAb0Q==;EndpointSuffix=core.windows.net";
-            string containerName = "imagempais";
-            var blobServiceClient = new BlobServiceClient(connectionString);
-            var blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
-            string arquivo = foto.Substring(foto.LastIndexOf('/') + 1);
-            var blobClient = blobContainerClient.GetBlobClient(arquivo);
-            blobClient.DeleteIfExists();
-        }
         private static string UploadImage(IFormFile imageFile)
         {
             string connectionString = @"DefaultEndpointsProtocol=https;AccountName=lucasresourcer;AccountKey=1PGao96lhuuABUJZYrHGqzQkoc+0Q+jwLVbwxD7H9FiwdlgkPFIwYmU9aH7f2Ahkr7fu+xHXdKGu+AStRcAb0Q==;EndpointSuffix=core.windows.net";
@@ -184,6 +176,16 @@ namespace AzureMvc.Controllers
             blob.UploadFromStreamAsync(reader);
             return blob.Uri.ToString();
 
+        }
+        private static void DeleteFile(string foto)
+        {
+            string connectionString = @"DefaultEndpointsProtocol=https;AccountName=lucasresourcer;AccountKey=1PGao96lhuuABUJZYrHGqzQkoc+0Q+jwLVbwxD7H9FiwdlgkPFIwYmU9aH7f2Ahkr7fu+xHXdKGu+AStRcAb0Q==;EndpointSuffix=core.windows.net";
+            string containerName = "imagempais";
+            var blobServiceClient = new BlobServiceClient(connectionString);
+            var blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
+            string arquivo = foto.Substring(foto.LastIndexOf('/') + 1);
+            var blobClient = blobContainerClient.GetBlobClient(arquivo);
+            blobClient.DeleteIfExists();
         }
     }
 }

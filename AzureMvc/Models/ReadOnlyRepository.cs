@@ -6,7 +6,7 @@ namespace AzureMvc.Models
     public class ReadOnlyRepository
     {
 
-        private string connectionString = "Server=tcp:lucasbds.database.windows.net,1433;Initial Catalog=LucasBd;Persist Security Info=False;User ID=Lucas;Password=24221371Lc!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string connectionString = "Server=tcp:lucasbdl.database.windows.net,1433;Initial Catalog=lucasbd;Persist Security Info=False;User ID=Lucas;Password=24221371Lc!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public List<Estado> GetAll()
         {
