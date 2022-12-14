@@ -23,9 +23,16 @@ namespace AzureMvc.Controllers
         }
 
         // GET: Pais
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index(string searchString)
         {
-              return View(await _context.Paises.ToListAsync());
+            var pais = from m in _context.Paises select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pais = pais.Where(s => s.Nome!.Contains(searchString));
+            }
+
+            return View(await pais.ToListAsync());
         }
 
         // GET: Pais/Details/5

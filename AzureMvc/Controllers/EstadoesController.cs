@@ -26,10 +26,16 @@ namespace AzureMvc.Controllers
 
         // GET: Estadoes
 
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index(string searchString)
         {
-            var azureMvcContext = _context.Estados.Include(e => e.Pais);
-            return View(await azureMvcContext.ToListAsync());
+            var estados = from m in _context.Estados select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                estados = estados.Where(s => s.Nome!.Contains(searchString));
+            }
+
+            return View(await estados.ToListAsync());
         }
 
         // GET: Estadoes/Details/5

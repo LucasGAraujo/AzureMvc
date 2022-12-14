@@ -23,9 +23,16 @@ namespace AzureMvc.Controllers
         }
 
         // GET: Amigos
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index(string searchString)
         {
-              return View(await _context.Amigos.ToListAsync());
+            var amigos = from m in _context.Amigos select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                amigos = amigos.Where(s => s.AmigoNome!.Contains(searchString));
+            }
+
+            return View(await amigos.ToListAsync());
         }
 
         // GET: Amigos/Details/5

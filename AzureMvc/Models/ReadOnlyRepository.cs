@@ -80,6 +80,7 @@ namespace AzureMvc.Models
                                A.EMAIL,
                                A.TELEFONE,
                                A.IMAGEMAMIGO
+                               A.ANIVERSARIO
                                A.PaisOrigem,
                                A.EstadoOrigem,
                                
