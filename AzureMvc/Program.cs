@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AzureMvc.Data;
+using AzureMvc.Models;
+using AzureMvc.Models.ARepository;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AzureMvcContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AzureMvcContext") ?? throw new InvalidOperationException("Connection string 'AzureMvcContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IAmigosRepository, AmigosRepository>();
+builder.Services.AddScoped<ReadOnlyRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

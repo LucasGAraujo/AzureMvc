@@ -39,7 +39,7 @@ namespace AzureMvc.Models
                         FROM ESTADO C
                         INNER JOIN PAIS CAT
                         ON C.PAISID = CAT.PAISID;
-                        WHERE CAT.PAISNAME = @P1;
+                        WHERE CAT.NOME = @P1;
                        ";
 
             var result = new List<Estado>();
@@ -69,6 +69,28 @@ namespace AzureMvc.Models
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 result = sqlConnection.QueryFirstOrDefault<Estado>(sql, new { P1 = id });
+                return result;
+            }
+        }
+        public List<Amigos> GetAllAmigos()
+        {
+            var sql = @"SELECT A.AMIGOID,
+                               A.AMIGONOME,
+                               A.SOBRENOME,
+                               A.EMAIL,
+                               A.TELEFONE,
+                               A.IMAGEMAMIGO
+                               A.PaisOrigem,
+                               A.EstadoOrigem,
+                               
+                            FROM AMIGO A 
+                       ";
+
+            var result = new List<Amigos>();
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                result = sqlConnection.Query<Amigos>(sql).ToList();
                 return result;
             }
         }

@@ -25,6 +25,7 @@ namespace AzureMvc.Controllers
         }
 
         // GET: Estadoes
+
         public async Task<IActionResult> Index()
         {
             var azureMvcContext = _context.Estados.Include(e => e.Pais);
